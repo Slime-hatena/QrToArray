@@ -13,13 +13,32 @@ namespace QrToArray
         {
             Bitmap bitmap;
             // ローカルファイルの場合
-            bitmap = new Bitmap("local.png");
-            // Webの場合
-            var wc = new System.Net.WebClient();
-            var stream = wc.OpenRead("http://hogehoge/hoge.png");
-            bitmap = new Bitmap(stream);
-            wc.Dispose();
-            stream.Close();
+            bitmap = new Bitmap("C:\\Development\\CSharp\\QrToArray\\QrToArray\\qr.png");
+
+            int width = bitmap.Width, height = bitmap.Height;
+            bool[,] dotState = new bool[width, height];
+
+            Console.Write("\n\n\n\n");
+            for (int x = width - 1; x >= 0; --x)
+            {
+                Console.Write("        ");
+                for (int y = height - 1; y >= 0; --y)
+                {
+                    Color pixel = bitmap.GetPixel(x, y);
+                    if (Color.Black.R == pixel.R)
+                    {
+                        Console.Write("■");
+                    }
+                    else
+                    {
+                        Console.Write("  ");
+                    }
+                }
+                Console.Write("\n");
+            }
+            Console.Read();
+            Console.Read();
+            Console.Read();
         }
     }
 }
