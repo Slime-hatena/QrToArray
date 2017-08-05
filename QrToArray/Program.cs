@@ -16,29 +16,30 @@ namespace QrToArray
             bitmap = new Bitmap("C:\\Development\\CSharp\\QrToArray\\QrToArray\\qr.png");
 
             int width = bitmap.Width, height = bitmap.Height;
-            bool[,] dotState = new bool[width, height];
+            const int marginPos = 1;
 
-            Console.Write("\n\n\n\n");
+            Bitmap canvas = new Bitmap(width * marginPos, height * marginPos);
+            Graphics g = Graphics.FromImage(canvas);
+            Pen p = new Pen(Color.White, marginPos );
+
             for (int x = width - 1; x >= 0; --x)
             {
-                Console.Write("        ");
+
                 for (int y = height - 1; y >= 0; --y)
                 {
                     Color pixel = bitmap.GetPixel(x, y);
-                    if (Color.Black.R == pixel.R)
+                    if((Color.Black.R == pixel.R))
                     {
-                        Console.Write("■");
-                    }
-                    else
-                    {
-                        Console.Write("  ");
+                        g.DrawLine(p, x * marginPos, y * marginPos, x * marginPos, y * marginPos);
                     }
                 }
-                Console.Write("\n");
             }
-            Console.Read();
-            Console.Read();
-            Console.Read();
+
+            p.Dispose();
+            g.Dispose();
+            //PictureBox1に表示する
+            canvas.Save("../../save.png", System.Drawing.Imaging.ImageFormat.Png);
+
         }
     }
 }
