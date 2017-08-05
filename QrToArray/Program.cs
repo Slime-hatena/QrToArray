@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace QrToArray
 {
-    class MainClass
+    class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            System.Drawing.Bitmap bitmap;
-
-			bitmap = new Bitmap("local.png");
-			stream.Close();
+            Bitmap bitmap;
+            // ローカルファイルの場合
+            bitmap = new Bitmap("local.png");
+            // Webの場合
+            var wc = new System.Net.WebClient();
+            var stream = wc.OpenRead("http://hogehoge/hoge.png");
+            bitmap = new Bitmap(stream);
+            wc.Dispose();
+            stream.Close();
         }
     }
 }
