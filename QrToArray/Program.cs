@@ -1,9 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace QrToArray
 {
@@ -12,34 +7,33 @@ namespace QrToArray
         static void Main(string[] args)
         {
             Bitmap bitmap;
-            // ローカルファイルの場合
-            bitmap = new Bitmap("C:\\Development\\CSharp\\QrToArray\\QrToArray\\qr.png");
+
+            // QRコードのパス
+            bitmap = new Bitmap("..\\..\\qr.png");
+            // １ドットの大きさ
+            const int marginPos = 100;
+            // その隙間 (入力値の２倍開くはず)
+            const int roundSize = 10;
 
             int width = bitmap.Width, height = bitmap.Height;
-            const int marginPos = 1;
 
             Bitmap canvas = new Bitmap(width * marginPos, height * marginPos);
             Graphics g = Graphics.FromImage(canvas);
-            Pen p = new Pen(Color.White, marginPos );
 
-            for (int x = width - 1; x >= 0; --x)
+            for (int x = 0; x < width; ++x)
             {
-
-                for (int y = height - 1; y >= 0; --y)
+                for (int y = 0; y < height; ++y)
                 {
                     Color pixel = bitmap.GetPixel(x, y);
+                    // ちょっとアレだけどRだけで判定しておく 状況次第では要変更
                     if((Color.Black.R == pixel.R))
                     {
-                        g.DrawLine(p, x * marginPos, y * marginPos, x * marginPos, y * marginPos);
+                        g.FillEllipse(Brushes.White, x * marginPos + roundSize, y * marginPos + roundSize, marginPos - roundSize, marginPos - roundSize);
                     }
                 }
             }
-
-            p.Dispose();
             g.Dispose();
-            //PictureBox1に表示する
             canvas.Save("../../save.png", System.Drawing.Imaging.ImageFormat.Png);
-
         }
     }
 }
